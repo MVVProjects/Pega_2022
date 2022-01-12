@@ -10,16 +10,15 @@ public class Deposit{
         System.out.println("Enter the amount to deposit: ");
         amnt = scanner.nextInt();
         
-        if(amnt<=0)
+        if (amnt<=0)
         {
             InvalidTransaction depositnegativeError = new InvalidTransaction("Invalid amount.");
             System.out.println(depositnegativeError.getMessage());
             userInput();
            
-        }else{   
-            return amnt;
         }
-        return amnt;
-        
+        else 
+        	return amnt;
+		return amnt; 
     }
 }

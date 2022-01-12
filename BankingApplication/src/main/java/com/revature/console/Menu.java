@@ -10,7 +10,7 @@ public class Menu {
 	Operations operations = new Operations();
 	
 	public void showMenu() {
-		System.out.println("Welcome, What would you like to do?");
+		System.out.println("Welcome, what would you like to do?");
         System.out.println("Press 1 to Deposit.");
         System.out.println("Press 2 to Withdraw.");
         System.out.println("Press 3 to View Balance");
@@ -49,8 +49,10 @@ public class Menu {
              System.out.println("Enter the amount to transfer: ");
              int transfer = scanner.nextInt();
              scanner.nextLine();
+             System.out.println("Enter the account to transfer from: ");
              int account1 = scanner.nextInt();
              scanner.nextLine();
+             System.out.println("Enter the account to transfer to: ");
              int account2 = scanner.nextInt();
              scanner.nextLine();
              operations.Transfer(transfer, account1, account2);
@@ -58,7 +60,7 @@ public class Menu {
              break;
        
         default:
-              System.out.println("Transaction Ended");
+              System.out.println("Transaction ended");
               System.exit(0);
             break;
     }
