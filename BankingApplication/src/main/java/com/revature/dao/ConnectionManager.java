@@ -8,15 +8,15 @@ public class ConnectionManager {
 
 	private static Connection connection;
 	
-	private static String connectionString = "jdbc:postgresql://ella.db.elephantsql.com:5432/jqxhkoxf",
-			username = "jqxhkoxf",
-			password = "l0ze6A0V-lhVUrcl8anhhjC7FnS8fL_7";
+	static String connectionString = "jdbc:postgresql://ella.db.elephantsql.com:5432/jqxhkoxf";
+	static String username = "jqxhkoxf";
+	static String password = "l0ze6A0V-lhVUrcl8anhhjC7FnS8fL_7";
 	
 	public static Connection getConnection() {
 		try {
-			if (connection == null) {
+			if (connection == null || connection.isClosed()) {
 			
-				Class.forName("org.postresql.Driver");
+				Class.forName("org.postgresql.Driver");
 				connection = DriverManager.getConnection(connectionString, username, password);
 			}
 			

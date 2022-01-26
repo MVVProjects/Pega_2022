@@ -1,79 +1,73 @@
 package com.revature.dao;
-import java.util.Scanner;
-
-import com.revature.errors.InvalidTransaction;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Operations {
-	int amount = 0;
 	
-	public void initialization()
-	{
-		Login login = new Login();
-		try {
-			login.acceptInput();
-			login.verify();
-		}
-		
-		catch (Exception a) {
-			
-			try {
-				login.acceptInput();
-				login.verify();
-			}
-			
-			catch (Exception b) {
-				
-			}
-		}
-		
-	}
-	
-	public int getBalance() {
-		return amount;
-	}
-	
-	public void topUp(int amnt) {
-		if (amount <= 0) {
-			InvalidTransaction InvalidDeposit = new InvalidTransaction("The amount is incorrect.");
-			System.out.println(InvalidDeposit.getMessage());
-		}
-		else {
-			amount = amount + amnt;
-			System.out.println(amnt + "PLN deposited succesfully.");
-			System.out.println("Current balance: " + amount + " PLN.");
-		}
-	}
-	
-	public void Withdrawal(int amnt) {
-		if (amount < amnt || amnt <= 0) {
-			InvalidTransaction InvalidWithdrawal = new InvalidTransaction("The amount is incorrect.");
-			System.out.println(InvalidWithdrawal.getMessage());
-		}
-		else {
-			amount = (amount - amnt);
-			System.out.println("The " + amnt + " was succesfully withdrawn.");
-			System.out.println("Current balance: " + amount + " PLN.");
-			}
-		}
-		
-	public void Transfer(int amnt, int account1, int account2) {/*
-		if (amount < amnt || amnt <= 0) {
-			InvalidTransaction InvalidTransfer = new InvalidTransaction("The amount is incorrect.");
-			System.out.println(InvalidTransfer.getMessage());
-			}
-			break;
-			
-			if (account1 ! int || account2 ! int) {
-				InvalidTransaction InvalidAccount = new InvalidAccount("The account is incorrect.");
-				System.out.println(InvalidAccount.getMessage());
-				break;
-			}
-		}
-		
-		else {
-			amount = (amount - amnt);
-			System.out.println("The " + amnt + " was successfully transferred.");
-			System.out.println("Current balance: " + amount + " PLN.");
-			}*/
-		}
+	 	public static int deposit(int accountID, int amount) {
+	        try {
+	            Connection conn = ConnectionManager.getConnection();
+	            String sql = "UPDATE accounts SET accountBalance = accountBalance + ? WHERE accountID = ?";
+
+	            PreparedStatement ps = conn.prepareStatement(sql);
+	            ps.setInt(1, amount);
+	            ps.setInt(2, accountID);
+
+	            ps.execute();
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+			return amount;
+
+	    }
+
+	    public static int withdraw(int accountID, int amount) {
+	        try {
+	            Connection con = ConnectionManager.getConnection();
+	            // String sql1 = "SELECT accountBalance FROM accounts WHERE accountID = ?";
+	            String sql2 = "UPDATE accounts SET accountBalance = accountBalance - ? WHERE accountID = ?";
+	            
+	            // PreparedStatement ps = con.prepareStatement(sql1);
+	            // ps.setInt(1, accountID);
+	            
+	            PreparedStatement ps1 = con.prepareStatement(sql2);
+	            ps1.setInt(1, amount);
+	            ps1.setInt(2, accountID);
+
+	            ps1.execute();
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+			return accountID;
+	    }
+
+	    public static int transfer(int accountID1, int accountID2, int amount) {
+
+	        try {
+	            Connection con = ConnectionManager.getConnection();
+	            // String sql1 = "SELECT accountBalance FROM accounts WHERE accountID = ?";
+	            String sql2 = "UPDATE accounts SET accountBalance = accountBalance - ? WHERE accountID = ?";
+
+	            PreparedStatement ps = con.prepareStatement(sql2);
+	            ps.setInt(1, amount);
+	            ps.setInt(2, accountID1);
+
+	            ps.execute();
+
+	            sql2 = "UPDATE accounts SET accountBalance = accountBalance + ? WHERE accountID = ?";
+
+	            ps = con.prepareStatement(sql2);
+	            ps.setInt(1, amount);
+	            ps.setInt(2, accountID2);
+
+	            ps.execute();
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+			return accountID2;
+	    }
 }
